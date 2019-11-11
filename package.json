@@ -1,0 +1,14 @@
+{
+  "fitbit": {
+    "appType": "clockface",
+    "buildTargets": [
+      "higgs",
+      "meson",
+      "gemini",
+      "mira"
+    ]
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "~4.0.0"
+  }
+}
