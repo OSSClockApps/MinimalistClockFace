@@ -1,4 +1,4 @@
-# CustomFitbitClockFace
+# MinimalistClockFace
 
 Simple clock face.
 
