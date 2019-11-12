@@ -1,4 +1,6 @@
 <svg class="background">
-  <text id="hm" />
-  <text id="s" />
+  <text id="hoursMinutesText" />
+  <text id="secondsText" />
+  <text id="heartRateText" />
+  <text id="batteryText" />
 </svg>

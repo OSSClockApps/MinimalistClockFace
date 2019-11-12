@@ -2,7 +2,7 @@
   viewport-fill: black;
 }
 
-#hm {
+#hoursMinutesText {
   font-size: 80;
   font-family: System-Regular;
   text-length: 35;
@@ -12,12 +12,32 @@
   fill: lime;
 }
 
-#s {
+#secondsText {
   font-size: 40;
   font-family: System-Regular;
   text-length: 35;
-  text-anchor: middle;
-  x: 90%;
+  text-anchor: end;
+  x: 95%;
   y: 50%+20;
   fill: lime;
+}
+
+#heartRateText {
+  font-size: 20;
+  font-family: System-Regular;
+  text-length: 35;
+  text-anchor: start;
+  x: 5%;
+  y: 90%;
+  fill: red;
+}
+
+#batteryText {
+  font-size: 20;
+  font-family: System-Regular;
+  text-length: 35;
+  text-anchor: end;
+  x: 95%;
+  y: 90%;
+  fill: white;
 }
