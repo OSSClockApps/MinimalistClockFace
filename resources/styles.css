@@ -1,6 +1,15 @@
 .background {
   viewport-fill: black;
 }
+#dateText {
+  font-size: 25;
+  font-family: System-Regular;
+  text-length: 45;
+  text-anchor: middle;
+  x: 50%;
+  y: 10%;
+  fill: gray;
+}
 
 #hoursMinutesText {
   font-size: 80;
