@@ -7,3 +7,5 @@ Displays:
 - Time
 - Heart rate
 - Battery
+
+![Screenshot](/screenshot.png)
