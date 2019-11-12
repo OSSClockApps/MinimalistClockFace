@@ -9,3 +9,5 @@ Displays:
 - Battery
 
 ![Screenshot](/screenshot.png)
+
+(Only Tested on Versa2)
