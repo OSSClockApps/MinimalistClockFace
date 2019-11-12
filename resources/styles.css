@@ -2,7 +2,7 @@
   viewport-fill: black;
 }
 #dateText {
-  font-size: 25;
+  font-size: 30;
   font-family: System-Regular;
   text-length: 45;
   text-anchor: middle;
@@ -12,17 +12,17 @@
 }
 
 #hoursMinutesText {
-  font-size: 80;
+  font-size: 90;
   font-family: System-Regular;
   text-length: 35;
   text-anchor: middle;
-  x: 50%-10;
+  x: 50%-20;
   y: 50%+20;
   fill: lime;
 }
 
 #secondsText {
-  font-size: 40;
+  font-size: 45;
   font-family: System-Regular;
   text-length: 35;
   text-anchor: end;
@@ -32,7 +32,7 @@
 }
 
 #heartRateText {
-  font-size: 20;
+  font-size: 30;
   font-family: System-Regular;
   text-length: 35;
   text-anchor: start;
@@ -42,7 +42,7 @@
 }
 
 #batteryText {
-  font-size: 20;
+  font-size: 30;
   font-family: System-Regular;
   text-length: 35;
   text-anchor: end;
