@@ -6,8 +6,7 @@
     "iconFile": "resources/icon.png",
     "wipeColor": "",
     "requestedPermissions": [
-      "access_heart_rate",
-      "access_user_profile"
+      "access_heart_rate"
     ],
     "buildTargets": [
       "higgs",
