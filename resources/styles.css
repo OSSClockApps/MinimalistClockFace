@@ -1,13 +1,23 @@
 .background {
-  viewport-fill: red;
+  viewport-fill: black;
 }
 
-#myLabel {
+#hm {
   font-size: 80;
-  font-family: System-Bold;
-  text-length: 32;
+  font-family: System-Regular;
+  text-length: 35;
   text-anchor: middle;
-  x: 50%;
-  y: 50%+40;
-  fill: white;
+  x: 50%-10;
+  y: 50%+20;
+  fill: lime;
+}
+
+#s {
+  font-size: 40;
+  font-family: System-Regular;
+  text-length: 35;
+  text-anchor: middle;
+  x: 90%;
+  y: 50%+20;
+  fill: lime;
 }
