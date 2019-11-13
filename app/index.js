@@ -1,84 +1,48 @@
-// Add zero in front of numbers < 10
-export function zeroPad(i) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
-}
+import clock from "clock";
+import document from "document";
+import { preferences } from "user-settings";
+import { HeartRateSensor } from "heart-rate";
+import { battery } from "power";
+import { locale } from "user-settings";
+import * as util from "../common/utils";
 
-//https://dev.fitbit.com/build/guides/user-interface/css/
-//Convert a number to a special monospace number
-export function monoDigits(num, pad = true) {
-  let monoNum = '';
-  if (typeof num === 'number') {
-    num |= 0;
-    if (pad && num < 10) {
-      monoNum = c0 + monoDigit(num);
-    } else {
-      while (num > 0) {
-        monoNum = monoDigit(num % 10) + monoNum;
-        num = (num / 10) | 0;
-      }
-    }
+// Update the clock every minute
+clock.granularity = "seconds";
+
+const dElem = document.getElementById("dateText");
+const hmElem = document.getElementById("hoursMinutesText");
+const sElem = document.getElementById("secondsText");
+const hrElem = document.getElementById("heartRateText");
+const bElem = document.getElementById("batteryText");
+
+//HeartRateSensor
+const hrs = new HeartRateSensor();
+hrs.start();
+
+
+// Update the <text> element every tick with the current time
+clock.ontick = (evt) => {
+  let today = evt.date;
+  dElem.text = util.getWeekDay(today.getDay(),locale)+ " "+ today.getDate() + "." + (today.getMonth()+1) + "." + today.getFullYear();
+  let hours = today.getHours();
+  if (preferences.clockDisplay === "12h") {
+    // 12h format
+    hours = util.monoDigits(hours % 12 || 12, false);
   } else {
-    let text = num.toString();
-    let textLen = text.length;
-    for (let i = 0; i < textLen; i++) {
-      monoNum += monoDigit(text.charAt(i));
-    }
+    // 24h format
+    hours = util.zeroPad(hours);
   }
-  return monoNum;
-}
-
-const c0 = String.fromCharCode(0x10);
-const c1 = String.fromCharCode(0x11);
-const c2 = String.fromCharCode(0x12);
-const c3 = String.fromCharCode(0x13);
-const c4 = String.fromCharCode(0x14);
-const c5 = String.fromCharCode(0x15);
-const c6 = String.fromCharCode(0x16);
-const c7 = String.fromCharCode(0x17);
-const c8 = String.fromCharCode(0x18);
-const c9 = String.fromCharCode(0x19);
-
-function monoDigit(digit) {
-  switch (digit) {
-    case 0: return c0;
-    case 1: return c1;
-    case 2: return c2;
-    case 3: return c3;
-    case 4: return c4;
-    case 5: return c5;
-    case 6: return c6;
-    case 7: return c7;
-    case 8: return c8;
-    case 9: return c9;
-    case '0': return c0;
-    case '1': return c1;
-    case '2': return c2;
-    case '3': return c3;
-    case '4': return c4;
-    case '5': return c5;
-    case '6': return c6;
-    case '7': return c7;
-    case '8': return c8;
-    case '9': return c9;
-    default: return digit;
-  }
-}
-
-const weekDaysGerman = [
-  "Mo","Di","Mi","Do","Fr","Sa","So"
-];
-
-const weekDaysEnglish = [
-  "Mon", "Tue", "Wed", "Thu","Fri","Sat","Sun"
-];
-
-export function getWeekDay(i, locale){
-  if(locale.language === "de-de"){
-    return weekDaysGerman[i-1];
+  let mins = util.monoDigits(today.getMinutes());
+  let secs = util.monoDigits(today.getSeconds());
+  hmElem.text = hours + ':' + mins;
+  sElem.text = secs;  
+  hrElem.text = hrs.heartRate + "bpm";
+  bElem.text =  battery.chargeLevel + "%";
+  if(battery.chargeLevel >= 75){
+    bElem.style.fill = "lime";
+  }else if(battery.chargeLevel >= 35){
+    bElem.style.fill = "yellow";
   }else{
-    return weekDaysEnglish[i-1];
+    bElem.style.fill = "red";
   }
 }
