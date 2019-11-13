@@ -16,7 +16,7 @@
   font-family: System-Regular;
   text-length: 35;
   text-anchor: middle;
-  x: 50%-20;
+  x: 50%-25;
   y: 50%+20;
   fill: lime;
 }
@@ -26,7 +26,7 @@
   font-family: System-Regular;
   text-length: 35;
   text-anchor: end;
-  x: 95%;
+  x: 95%+5;
   y: 50%+20;
   fill: lime;
 }
