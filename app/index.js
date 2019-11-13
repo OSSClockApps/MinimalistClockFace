@@ -36,7 +36,11 @@ clock.ontick = (evt) => {
   let secs = util.monoDigits(today.getSeconds());
   hmElem.text = hours + ':' + mins;
   sElem.text = secs;  
-  hrElem.text = hrs.heartRate + "bpm";
+  if(hrs.heartRate == null){
+    hrElem.text = "--bpm";
+  }else{
+    hrElem.text = hrs.heartRate + "bpm";
+  }
   bElem.text =  battery.chargeLevel + "%";
   if(battery.chargeLevel >= 75){
     bElem.style.fill = "lime";
