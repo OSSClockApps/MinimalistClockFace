@@ -66,3 +66,19 @@ function monoDigit(digit) {
     default: return digit;
   }
 }
+
+const weekDaysGerman = [
+ "So", "Mo","Di","Mi","Do","Fr","Sa"
+];
+
+const weekDaysEnglish = [
+  "Sun","Mon", "Tue", "Wed", "Thu","Fri","Sat"
+];
+
+export function getWeekDay(i, locale){
+  if(locale.language === "de-de"){
+    return weekDaysGerman[i];
+  }else{
+    return weekDaysEnglish[i];
+  }
+}
