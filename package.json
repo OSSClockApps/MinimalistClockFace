@@ -16,10 +16,10 @@
     ],
     "i18n": {
       "en": {
-        "name": "TestClockFace"
+        "name": "MinimalistClockFace"
       },
       "de": {
-        "name": "TestClockFace"
+        "name": "MinimalistClockFace"
       }
     },
     "defaultLanguage": "en-US"
