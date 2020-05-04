@@ -1,3 +1,5 @@
+[![](https://img.shields.io/github/license/lukaspanni/MinimalistClockFace.svg)](https://github.com/lukaspanni/MinimalistClockFace/blob/master/LICENSE) 
+
 # MinimalistClockFace
 
 Simple clock face.
