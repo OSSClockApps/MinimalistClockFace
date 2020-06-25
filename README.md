@@ -1,3 +1,4 @@
+[![](https://img.shields.io/badge/Fitbit%20App%20Gallery-%2300B0B9?style=flat-square&logo=fitbit&logoColor=white)](https://gallery.fitbit.com/details/26aeae50-2c70-4a60-8503-8ba2c730082f) 
 [![](https://img.shields.io/github/license/lukaspanni/MinimalistClockFace.svg)](https://github.com/lukaspanni/MinimalistClockFace/blob/master/LICENSE) 
 
 # MinimalistClockFace
