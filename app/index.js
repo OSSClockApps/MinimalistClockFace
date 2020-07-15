@@ -1,12 +1,18 @@
 import clock from "clock";
 import document from "document";
+import { me } from "appbit";
 import { preferences } from "user-settings";
 import { HeartRateSensor } from "heart-rate";
 import { battery } from "power";
 import { locale } from "user-settings";
 import * as util from "../common/utils";
+import * as fs from "fs";
+import * as messaging from "messaging";
 
-// Update the clock every minute
+const SETTINGS_TYPE = "cbor";
+const SETTINGS_FILE = "settings.cbor";
+
+// Update the clock every second
 clock.granularity = "seconds";
 
 const dElem = document.getElementById("dateText");
@@ -19,6 +25,8 @@ const bElem = document.getElementById("batteryText");
 const hrs = new HeartRateSensor();
 hrs.start();
 
+let settings = loadSettings();
+applySettings();
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
@@ -49,4 +57,48 @@ clock.ontick = (evt) => {
   }else{
     bElem.style.fill = "red";
   }
+}
+
+
+function applySettings(){
+  hmElem.style.fill = settings.color;
+  sElem.style.fill = settings.color;
+  hrElem.style.display = settings.hideHeartRate ? "none" : "inherit";
+  bElem.style.display = settings.hideBattery ? "none" : "inherit";
+  dElem.style.display = settings.hideDate ? "none" : "inherit";
+}
+
+//Settings
+
+messaging.peerSocket.onmessage = (evt) => {
+  if(evt.data.key == "fontColor"){
+    settings.color = evt.data.value;
+  }else if(evt.data.key == "hideHeartRate"){
+    settings.hideHeartRate = evt.data.value;
+  }else if(evt.data.key == "hideBattery"){
+    settings.hideBattery = evt.data.value;
+  }else if(evt.data.key == "hideDate"){
+    settings.hideDate = evt.data.value;
+  }
+  applySettings()
+}
+
+
+me.onunload = saveSettings;
+
+function loadSettings(){
+  try {
+    return fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
+  } catch (ex) {
+    return {
+      color: "lime",
+      hideHeartRate: false,
+      hideBattery: false,
+      hideDate: false
+    }
+  }
+}
+
+function saveSettings(){
+  fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
 }
