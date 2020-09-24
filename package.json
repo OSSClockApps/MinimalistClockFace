@@ -1,7 +1,4 @@
 {
-  "devDependencies": {
-    "@fitbit/sdk": "~4.2.0"
-  },
   "fitbit": {
     "appUUID": "ffffffff-ffff-ffff-ffff-ffffffffffff",
     "appType": "clockface",
@@ -18,13 +15,16 @@
       "mira"
     ],
     "i18n": {
-      "en-US": {
+      "en": {
         "name": "MinimalistClockFace"
       },
-      "de-DE": {
+      "de": {
         "name": "MinimalistClockFace"
       }
     },
     "defaultLanguage": "en-US"
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "~4.2.0"
   }
 }
