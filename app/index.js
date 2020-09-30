@@ -3,6 +3,8 @@ import document from "document";
 import { me } from "appbit";
 import { preferences } from "user-settings";
 import { HeartRateSensor } from "heart-rate";
+import { display } from "display";
+import { BodyPresenceSensor } from "body-presence";
 import { battery } from "power";
 import { locale } from "user-settings";
 import * as util from "../common/utils";
@@ -21,9 +23,41 @@ const sElem = document.getElementById("secondsText");
 const hrElem = document.getElementById("heartRateText");
 const bElem = document.getElementById("batteryText");
 
+const hrVisible = true;
+
 //HeartRateSensor
-const hrs = new HeartRateSensor();
-hrs.start();
+if (HeartRateSensor) {
+  const hrs = new HeartRateSensor();
+  hrs.start();
+}
+
+// Disable HRS when watch is not on wrist
+if (BodyPresenceSensor && hrs) {
+  const body = new BodyPresenceSensor();
+  body.addEventListener("reading", () => {
+    if (body.present && hrVisible) {
+      hrs.start();
+    } else {
+      hrs.stop();
+    }
+  });
+  body.start();
+}
+
+// Disable HRS when screen is off
+if (display && hrs) {
+  display.addEventListener("change", () => {
+    if (hrs != null) {
+      if (display.on && hrVisible) {
+        hrs.start();
+      } else {
+        hrs.stop();
+      }
+    }
+  });
+}
+
+
 
 let settings = loadSettings();
 applySettings();
@@ -31,7 +65,7 @@ applySettings();
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
   let today = evt.date;
-  dElem.text = util.getWeekDay(today.getDay(),locale)+ " "+ today.getDate() + "." + (today.getMonth()+1) + "." + today.getFullYear();
+  dElem.text = util.getWeekDay(today.getDay(), locale) + " " + today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
   let hours = today.getHours();
   if (preferences.clockDisplay === "12h") {
     // 12h format
@@ -43,41 +77,46 @@ clock.ontick = (evt) => {
   let mins = util.monoDigits(today.getMinutes());
   let secs = util.monoDigits(today.getSeconds());
   hmElem.text = hours + ':' + mins;
-  sElem.text = secs;  
-  if(hrs.heartRate == null){
+  sElem.text = secs;
+  if (hrs.heartRate == null) {
     hrElem.text = "--bpm";
-  }else{
+  } else {
     hrElem.text = hrs.heartRate + "bpm";
   }
-  bElem.text =  battery.chargeLevel + "%";
-  if(battery.chargeLevel >= 75){
+  bElem.text = battery.chargeLevel + "%";
+  if (battery.chargeLevel >= 75) {
     bElem.style.fill = "lime";
-  }else if(battery.chargeLevel >= 35){
+  } else if (battery.chargeLevel >= 35) {
     bElem.style.fill = "yellow";
-  }else{
+  } else {
     bElem.style.fill = "red";
   }
 }
 
+//Settings
 
-function applySettings(){
+function applySettings() {
   hmElem.style.fill = settings.color;
   sElem.style.fill = settings.color;
+  hrVisible = !settings.hideHeartRate;
+  if (!hrVisible) {
+    hrs.stop();
+  } else {
+    hrs.start();
+  }
   hrElem.style.display = settings.hideHeartRate ? "none" : "inherit";
   bElem.style.display = settings.hideBattery ? "none" : "inherit";
   dElem.style.display = settings.hideDate ? "none" : "inherit";
 }
 
-//Settings
-
 messaging.peerSocket.onmessage = (evt) => {
-  if(evt.data.key == "fontColor"){
+  if (evt.data.key == "fontColor") {
     settings.color = evt.data.value;
-  }else if(evt.data.key == "hideHeartRate"){
+  } else if (evt.data.key == "hideHeartRate") {
     settings.hideHeartRate = evt.data.value;
-  }else if(evt.data.key == "hideBattery"){
+  } else if (evt.data.key == "hideBattery") {
     settings.hideBattery = evt.data.value;
-  }else if(evt.data.key == "hideDate"){
+  } else if (evt.data.key == "hideDate") {
     settings.hideDate = evt.data.value;
   }
   applySettings()
@@ -86,7 +125,7 @@ messaging.peerSocket.onmessage = (evt) => {
 
 me.onunload = saveSettings;
 
-function loadSettings(){
+function loadSettings() {
   try {
     return fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
   } catch (ex) {
@@ -99,6 +138,6 @@ function loadSettings(){
   }
 }
 
-function saveSettings(){
+function saveSettings() {
   fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
 }
