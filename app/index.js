@@ -62,10 +62,19 @@ if (display && hrs) {
 let settings = loadSettings();
 applySettings();
 
-// Update the <text> element every tick with the current time
+// Update the <text> elements every tick with the current time
 clock.ontick = (evt) => {
   let today = evt.date;
-  dElem.text = util.getWeekDay(today.getDay(), locale) + " " + today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
+  let date = today.getDate();
+  let month = today.getMonth() + 1;
+  let year = today.getFullYear();
+  let dateText = util.getWeekDay(today.getDay(), locale) + " ";
+  if (locale.language == "en-us") {
+    dateText += month + "/" + date + "/" + year;
+  } else {
+    dateText += date + "." + month + "." + year;
+  }
+  dElem.text = dateText;
   let hours = today.getHours();
   if (preferences.clockDisplay === "12h") {
     // 12h format
@@ -99,9 +108,9 @@ function applySettings() {
   hmElem.style.fill = settings.color;
   sElem.style.fill = settings.color;
   hrVisible = !settings.hideHeartRate;
-  if (!hrVisible) {
+  if(!hrVisible){
     hrs.stop();
-  } else {
+  }else{
     hrs.start();
   }
   hrElem.style.display = settings.hideHeartRate ? "none" : "inherit";
